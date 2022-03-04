@@ -1,2 +1,0 @@
-# Suckless
-Suckless builds

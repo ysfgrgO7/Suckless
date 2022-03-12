@@ -7,7 +7,7 @@ cd
 echo "### Installing DEPS ###"
 if command -v pacman &> /dev/null
 then
-    sudo pacman -S --noconfirm --needed base-devel opendoas lm_sensors psmisc xsetroot    
+    sudo pacman -S --noconfirm --needed base-devel opendoas lm_sensors psmisc xorg-xsetroot    
 elif command -v xbps-install &> /dev/null 
 then
     sudo xbps-install -Syu libXft-devel libX11-devel harfbuzz-devel libXext-devel libXrender-devel libXinerama-devel base-devel psmisc opendoas lm_sensors xsetroot

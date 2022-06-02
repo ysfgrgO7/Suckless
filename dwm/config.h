@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 2;        /* border pixel of windows */
+static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int gappih    = 20;       /* horiz inner gap between windows */
 static const unsigned int gappiv    = 20;       /* vert inner gap between windows */
@@ -12,7 +12,7 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int vertpad            = 20;       /* vertical padding of bar */
 static const int sidepad            = 20;       /* horizontal padding of bar */
-static const int horizpadbar        = 70;        /* horizontal padding for statusbar */
+static const int horizpadbar        = 2;        /* horizontal padding for statusbar */
 static const int vertpadbar         = 12;        /* vertical padding for statusbar */
 static const char *fonts[]          = { "JetbrainsMono nerd font:size=12",
 "Material Design Icons Desktop:size=12"
@@ -28,10 +28,9 @@ static const char *colors[][3]      = {
 };
 
 static const char *const autostart[] = {
-    "/usr/local/bin/bar/bar.sh", NULL, // startus bar
 	"nitrogen", "--restore", NULL, // wallpapers
 	"picom", "-b", "--experimental-backends", NULL, // compositer
-	NULL /* terminate */
+	NULL // terminate
 };
 
 typedef struct {
@@ -56,12 +55,12 @@ static const unsigned int ulinevoffset	= 0;	/* how far above the bottom of the b
 static const int ulineall 		= 0;	/* 1 to show underline on all tags, 0 for just the active ones */
 
 static const Rule rules[] = {
-	{ "Gimp",	  NULL,			NULL,		0,				1,			 -1 },
-	{ "VirtualBox Manager",	  NULL,			NULL,		0,				1,			 -1 },
-	{ "Firefox",  NULL,			NULL,		1 << 8,			0,			 -1 },
-	{ NULL,		  "spterm",	NULL,		SPTAG(0),		1,			 -1 },
-	{ NULL,		  "spaud",	NULL,		SPTAG(1),		1,			 -1 },
-	{ NULL,		  "spmus",	NULL,		SPTAG(2),		1,			 -1 },
+	{ "Gimp",	  NULL,	   	  NULL,		0,				1,			 -1 },
+	{ "VirtualBox Manager",	  NULL,		NULL,		    0,    1,			 -1 },
+	{ "Firefox",  NULL,		  NULL,		1 << 8,			0,			 -1 },
+	{ NULL,		  "spterm",	  NULL,		SPTAG(0),		1,			 -1 },
+	{ NULL,		  "spaud",	  NULL,		SPTAG(1),		1,			 -1 },
+	{ NULL,		  "spmus",	  NULL,		SPTAG(2),		1,			 -1 },
 };
 
 /* layout(s) */
@@ -74,17 +73,16 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
 #include "vanitygaps.c"
 
 static const Layout layouts[] = {
-	/* symbol     arrange function */
-	{ "[]",      tile },    /* first entry is default */
+ 	{ "[]=",      tile },    /* first entry is default */
 	{ "[M]",      monocle },
-	{ "󰕖",      spiral },
-	{ "󰹵",     dwindle },
+	{ "[@]",      spiral },
+	{ "[\\]",     dwindle },
 	{ "H[]",      deck },
 	{ "TTT",      bstack },
 	{ "===",      bstackhoriz },
 	{ "HHH",      grid },
 	{ "###",      nrowgrid },
-	{ "󰕯",      horizgrid },
+	{ "---",      horizgrid },
 	{ ":::",      gaplessgrid },
 	{ "|M|",      centeredmaster },
 	{ ">M>",      centeredfloatingmaster },
@@ -175,10 +173,10 @@ TAGKEYS(                        XK_8,                      7)
 { MODKEY|Mod1Mask,              XK_0,      togglegaps,     {0} },
 { MODKEY|Mod1Mask|ShiftMask,    XK_0,      defaultgaps,    {0} },
 };
+
 /* button definitions */
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
-	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
@@ -190,3 +188,4 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
+

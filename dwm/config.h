@@ -33,6 +33,7 @@ static const char *colors[][3]      = {
 };
 
 static const char *const autostart[] = {
+    "slstatus", NULL,
 	"nitrogen", "--restore", NULL, // wallpapers
 	"picom", "-b", "--experimental-backends", NULL, // compositer
 	NULL // terminate

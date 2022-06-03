@@ -1,21 +1,22 @@
 # Dwm / Status Bar / Dmenu
 + Dwm
   + Patches
-     + Attachbottom
+     + Attach Bottom
      + Bar Padding
-     + Center (Patch)
-     + Cool Autostart
+     + Color Bar
+     + Cool AutoStart
      + Cursor Warp
      + Cycle Layouts
+     + Fix Borders
      + Hide Vacant Tags
-     + No Title
-     + PerTag
-     + Restart Sig
-     + Status2d
+     + No title
+     + Pertag
+     + RestartSig
+     + Scratch Pads
      + Status Padding
-     + Uder Line Tags
-     + Vanity Gaps
-     + Status All Mons
+     + Underline Tags
+     + VanityGaps
+
 + Dmenu
   + Patches
      + Border

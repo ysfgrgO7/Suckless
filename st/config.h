@@ -26,7 +26,7 @@ static int bellvolume = 0;
 char *termname = "st-256color";
 char *float_terminal = "st_float";
 unsigned int tabspaces = 8;
-float alpha = 1.00;
+float alpha = 0.90;
 static int ligatures = 1;
 
 // Colors Settings

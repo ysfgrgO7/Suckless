@@ -18,25 +18,15 @@ static const int topbar             = 1;     /* 0 means bottom bar */
 static const char *fonts[]          = { "JetbrainsMono nerd font:size=12",
 "Material Design Icons Desktop:size=12"
 };
-static const char col_bg[]          = "#1E1D2F";
-static const char col_gray[]        = "#6E6C7E";
-static const char col_white[]       = "#D9E0EE";
-static const char col_border[]      = "#96CDFB";
-static const char *colors[][3]      = {
-[SchemeNorm]      = { col_gray,    col_bg,     col_bg     },
-[SchemeSel]       = { col_white,   col_bg,     col_border },
-[SchemeStatus]    = { col_white,   col_bg,   "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
-[SchemeTagsSel]   = { col_white,   col_bg, "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
-[SchemeTagsNorm]  = { col_gray,   col_bg,   "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
-[SchemeInfoSel]   = { col_gray,   col_bg, "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
-[SchemeInfoNorm]  = { col_gray,   col_bg,   "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
-};
+
+#include "themes/catppuccin.h"
 
 static const char *const autostart[] = {
 	"volumeicon", NULL,
 	"picom", NULL,
 	"lxsession", NULL,
     "slstatus", NULL,
+    "nitrogen", "--restore" , NULL,
 	"picom", "-b", "--experimental-backends", NULL,
 	NULL
 };

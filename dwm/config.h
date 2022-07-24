@@ -18,25 +18,15 @@ static const int topbar             = 1;     /* 0 means bottom bar */
 static const char *fonts[]          = { "JetbrainsMono nerd font:size=12",
 "Material Design Icons Desktop:size=12"
 };
-static const char col_bg[]          = "#1E1D2F";
-static const char col_gray[]        = "#6E6C7E";
-static const char col_white[]       = "#D9E0EE";
-static const char col_border[]      = "#96CDFB";
-static const char *colors[][3]      = {
-[SchemeNorm]      = { col_gray,    col_bg,     col_bg     },
-[SchemeSel]       = { col_white,   col_bg,     col_border },
-[SchemeStatus]    = { col_white,   col_bg,   "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
-[SchemeTagsSel]   = { col_white,   col_bg, "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
-[SchemeTagsNorm]  = { col_gray,   col_bg,   "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
-[SchemeInfoSel]   = { col_gray,   col_bg, "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
-[SchemeInfoNorm]  = { col_gray,   col_bg,   "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
-};
+
+#include "themes/catppuccin.h"
 
 static const char *const autostart[] = {
 	"volumeicon", NULL,
 	"picom", NULL,
 	"lxsession", NULL,
     "slstatus", NULL,
+    "nitrogen", "--restore" , NULL,
 	"picom", "-b", "--experimental-backends", NULL,
 	NULL
 };
@@ -186,17 +176,14 @@ TAGKEYS(                        XK_8,                      7)
 /* button definitions */
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
-	/* click                event mask      button          function        argument */
-	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
-	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
-	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
+	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
+	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
-	{ ClkClientWin,         MODKEY,         Button1,        resizemouse,    {0} },
+	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
 	{ ClkTagBar,            0,              Button1,        view,           {0} },
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
-

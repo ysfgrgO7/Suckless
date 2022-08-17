@@ -65,6 +65,8 @@ static const char unknown_str[] = "n/a";
  */
 static const struct arg args[] = {
 // TEMP
+// { separator,	 " | ",  NULL           },
+// { run_command, "%s",   "~/.local/share/bin/battery" },
 { separator,	 " | ",  NULL           },
 { separator,	 " ",   NULL           },
 { run_command,   "%s",     "sensors | grep temp1 | awk 'NR==1 {print $2}' | sed 's/+//g'"           },

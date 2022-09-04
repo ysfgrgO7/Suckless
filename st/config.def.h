@@ -30,9 +30,9 @@ float alpha = 0.90;
 static int ligatures = 1;
 
 // Colors Settings
-#include "themes/catppuccin.h"
+// #include "themes/catppuccin.h"
 /* #include "themes/darkplus.h" */
-/* #include "themes/onedarker.h" */
+#include "themes/onedarker.h"
 /* #include "themes/tokyonight.h" */
 unsigned int defaultfg = 7;
 unsigned int defaultbg = 258;

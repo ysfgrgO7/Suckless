@@ -19,7 +19,7 @@ static const char *fonts[]          = { "JetbrainsMono nerd font:size=12",
 "Material Design Icons Desktop:size=12"
 };
 
-#include "themes/catppuccin.h"
+#include "themes/onedark.h"
 
 static const char *const autostart[] = {
 	"volumeicon", NULL,

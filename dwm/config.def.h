@@ -35,9 +35,9 @@ typedef struct {
 	const char *name;
 	const void *cmd;
 } Sp;
-const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
-const char *spcmd2[] = {"st", "-n", "spaud", "-g", "120x34", "-e", "pulsemixer",  NULL };
-const char *spcmd3[] = {"st", "-n", "spmus", "-g", "120x34", "-e", "mocp",  NULL };
+const char *spcmd1[] = {"alacritty", "-n", "spterm", "-g", "120x34", NULL };
+const char *spcmd2[] = {"alacritty", "-n", "spaud", "-g", "120x34", "-e", "pulsemixer",  NULL };
+const char *spcmd3[] = {"alacritty", "-n", "spmus", "-g", "120x34", "-e", "mocp",  NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */
 	{"spterm",      spcmd1},
@@ -104,9 +104,9 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[]     = { "dmenu_run", "-c", "-l", "20", "-g", "2", "-p", "Run :", NULL };
 static const char *roficmd[]      = { "rofi", "-show", "drun", NULL };
 static const char *rofiwcmd[]     = { "rofi", "-show", "window", NULL };
-static const char *termcmd[]      = { "st", NULL };
+static const char *termcmd[]      = { "alacritty", NULL };
 static const char *fmcmd[]        = { "pcmanfm", NULL };
-static const char *tuifmcmd[]     = { "st", "-e", "ranger", NULL };
+static const char *tuifmcmd[]     = { "alacritty", "-e", "ranger", NULL };
 static const char *webcmd[]       = { "brave", NULL };
 static const char *scrotcmd[]     = { "scrot", NULL };
 
@@ -137,10 +137,8 @@ static Key keys[] = {
 { MODKEY,                       XK_space,  focusstack,     {.i = +1 } },
 { MODKEY|ShiftMask,             XK_r,      quit,           {1} }, 
 { MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
-{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
-{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+{ MODKEY,                       XK_o,      focusmon,       {.i = +1 } },
+{ MODKEY|ShiftMask,             XK_o,      tagmon,         {.i = +1 } },
 //Scratchpads
 { MODKEY,                       XK_p,        togglescratch,  {.ui = 0 } },
 { MODKEY,                       XK_s,	     togglescratch,  {.ui = 1 } },

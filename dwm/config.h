@@ -19,7 +19,7 @@ static const char *fonts[]          = { "JetbrainsMono nerd font:size=12",
 "Material Design Icons Desktop:size=12"
 };
 
-#include "themes/onedark.h"
+#include "themes/catppuccin.h"
 
 static const char *const autostart[] = {
 	"volumeicon", NULL,
@@ -128,11 +128,6 @@ static Key keys[] = {
 { MODKEY|ShiftMask,             XK_space,  togglefullscr,  {0} },
 { MODKEY,                       XK_b,      togglebar,      {0} },
 { MODKEY,                       XK_c,      zoom,           {0} },
-// monitors
-// {MODKEY, XK_comma,			  focusmon,       {.i = -1 } },
-// {MODKEY, XK_period,			  focusmon,       {.i = +1 } },
-// {MODKEY|ShiftMask, XK_comma,	  tagmon,         {.i = -1 } },
-// {MODKEY|ShiftMask, XK_period,  tagmon,         {.i = +1 } },
 // Dwm Stuff
 { MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 { MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
@@ -142,10 +137,8 @@ static Key keys[] = {
 { MODKEY,                       XK_space,  focusstack,     {.i = +1 } },
 { MODKEY|ShiftMask,             XK_r,      quit,           {1} }, 
 { MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
-{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
-{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+{ MODKEY,                       XK_o,      focusmon,       {.i = +1 } },
+{ MODKEY|ShiftMask,             XK_o,      tagmon,         {.i = +1 } },
 //Scratchpads
 { MODKEY,                       XK_p,        togglescratch,  {.ui = 0 } },
 { MODKEY,                       XK_s,	     togglescratch,  {.ui = 1 } },

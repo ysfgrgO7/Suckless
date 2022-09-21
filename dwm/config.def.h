@@ -19,7 +19,7 @@ static const char *fonts[]          = { "JetbrainsMono nerd font:size=12",
 "Material Design Icons Desktop:size=12"
 };
 
-#include "themes/onedark.h"
+#include "themes/catppuccin.h"
 
 static const char *const autostart[] = {
 	"volumeicon", NULL,
@@ -36,7 +36,7 @@ typedef struct {
 	const void *cmd;
 } Sp;
 const char *spcmd1[] = {"alacritty", "-n", "spterm", "-g", "120x34", NULL };
-const char *spcmd2[] = {"alacritty", "-n", "spaud", "-g", "120x34", "-e", "pulsemixer",  NULL };
+const char *spcmd2[] = {"st", "-n", "spaud", "-g", "120x34", "-e", "pulsemixer",  NULL };
 const char *spcmd3[] = {"alacritty", "-n", "spmus", "-g", "120x34", "-e", "mocp",  NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */

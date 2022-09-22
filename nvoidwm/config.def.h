@@ -28,12 +28,14 @@ static const int scalepreview       = 4;
 static const int tag_preview        = 0;        /* 1 means enable, 0 is off */
 static const int colorfultag        = 1;        /* 0 means use SchemeSel for selected non vacant tag */
 
-static const char *fonts[]          = { "JetbrainsMono nerd font:size=12",
-"Material Design Icons Desktop:size=12"
-};
+// #define ICONSIZE 19   /* icon size */
+// #define ICONSPACING 8 /* space between icon and title */
+
+static const char *fonts[]          = {"Iosevka:style:medium:size=12" ,"JetBrainsMono Nerd Font:style:medium:size=11",
+                                        "Material Design Icons Desktop:size=11" };
 
 // theme
-#include "themes/catppuccin.h"
+#include "themes/onedark.h"
 
 static const char *colors[][3]      = {
     /*                     fg       bg      border */
@@ -66,6 +68,13 @@ static const char *const autostart[] = {
 
 /* tagging */
 static char *tags[] = {"", "", "", "", ""};
+
+// static const char* eww[] = { "eww", "open" , "eww", NULL };
+
+// static const Launcher launchers[] = {
+//     /* command     name to display */
+//     { eww,         "" },
+// };
 
 static const int tagschemes[] = {
     SchemeTag1, SchemeTag2, SchemeTag3, SchemeTag4, SchemeTag5
@@ -139,69 +148,69 @@ static const char *scrotcmd[]     = { "scrot", NULL };
 /* commands */
 
 static Key keys[] = {
-// Audio and brightness
-{0,                     XF86XK_AudioMute,       spawn,          SHCMD("pamixer -t")},
-{0,              XF86XK_AudioRaiseVolume,       spawn,          SHCMD("pamixer -i 5")},
-{0,              XF86XK_AudioLowerVolume,       spawn,          SHCMD("pamixer -d 5")},
-{0,              XF86XK_MonBrightnessDown,      spawn,          SHCMD("xbacklight -dec 5")},
-{0,              XF86XK_MonBrightnessUp,        spawn,          SHCMD("xbacklight -inc 5")},
+// brightness and audio 
+  {0,              XF86XK_AudioMute,              spawn,          SHCMD("pamixer -t")},
+  {0,              XF86XK_AudioRaiseVolume,       spawn,          SHCMD("pamixer -i 5")},
+  {0,              XF86XK_AudioLowerVolume,       spawn,          SHCMD("pamixer -d 5")},
+  {0,              XF86XK_MonBrightnessDown,      spawn,          SHCMD("xbacklight -dec 5")},
+  {0,              XF86XK_MonBrightnessUp,        spawn,          SHCMD("xbacklight -inc 5")},
 // Apps 
-{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
-{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
-{ MODKEY,                       XK_w,      spawn,          {.v = webcmd } },
-{ MODKEY,                       XK_e,      spawn,          {.v = tuifmcmd } },
-{ MODKEY|ShiftMask,             XK_s,      spawn,          {.v = scrotcmd } },
-{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = roficmd } },
-{ MODKEY|ShiftMask,             XK_d,      spawn,          {.v = rofiwcmd } },
-{ MODKEY|ShiftMask,             XK_e,      spawn,          {.v = fmcmd } },
+  { MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+  { MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
+  { MODKEY,                       XK_w,      spawn,          {.v = webcmd } },
+  { MODKEY,                       XK_e,      spawn,          {.v = tuifmcmd } },
+  { MODKEY|ShiftMask,             XK_s,      spawn,          {.v = scrotcmd } },
+  { MODKEY|ShiftMask,             XK_Return, spawn,          {.v = roficmd } },
+  { MODKEY|ShiftMask,             XK_d,      spawn,          {.v = rofiwcmd } },
+  { MODKEY|ShiftMask,             XK_e,      spawn,          {.v = fmcmd } },
 // Layout Controls
-{ MODKEY,                       XK_f,      togglefloating, {0} },
-{ MODKEY,                       XK_Tab,    cyclelayout,    {.i = +1 } },
-{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-{ MODKEY|ShiftMask,             XK_space,  togglefullscr,  {0} },
-{ MODKEY,                       XK_b,      togglebar,      {0} },
-{ MODKEY,                       XK_c,      zoom,           {0} },
+  { MODKEY,                       XK_f,      togglefloating, {0} },
+  { MODKEY,                       XK_Tab,    cyclelayout,    {.i = +1 } },
+  { MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
+  { MODKEY|ShiftMask,             XK_space,  togglefullscr,  {0} },
+  { MODKEY,                       XK_b,      togglebar,      {0} },
+  { MODKEY,                       XK_c,      zoom,           {0} },
 // Dwm Stuff
-{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
-{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-{ MODKEY|ControlMask,           XK_v,      incnmaster,     {.i = +1 } },
-{ MODKEY|ControlMask,           XK_h,      incnmaster,     {.i = -1 } },
-{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-{ MODKEY,                       XK_space,  focusstack,     {.i = +1 } },
-{ MODKEY|ShiftMask,             XK_r,      quit,           {1} }, 
-{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-{ MODKEY,                       XK_o,      focusmon,       {.i = +1 } },
-{ MODKEY|ShiftMask,             XK_o,      tagmon,         {.i = +1 } },
+  { MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
+  { MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
+  { MODKEY|ControlMask,           XK_v,      incnmaster,     {.i = +1 } },
+  { MODKEY|ControlMask,           XK_h,      incnmaster,     {.i = -1 } },
+  { MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
+  { MODKEY,                       XK_space,  focusstack,     {.i = +1 } },
+  { MODKEY|ShiftMask,             XK_r,      quit,           {1} }, 
+  { MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+  { MODKEY,                       XK_o,      focusmon,       {.i = +1 } },
+  { MODKEY|ShiftMask,             XK_o,      tagmon,         {.i = +1 } },
 //Scratchpads
-// { MODKEY,                       XK_p,        togglescratch,  {.ui = 0 } },
-// { MODKEY,                       XK_s,	     togglescratch,  {.ui = 1 } },
-// { MODKEY,                       XK_m,	     togglescratch,  {.ui = 2 } },
+  // { MODKEY,                       XK_p,        togglescratch,  {.ui = 0 } },
+  // { MODKEY,                       XK_s,	     togglescratch,  {.ui = 1 } },
+  // { MODKEY,                       XK_m,	     togglescratch,  {.ui = 2 } },
 // Tags
-TAGKEYS(                        XK_1,                      0)
-TAGKEYS(                        XK_2,                      1)
-TAGKEYS(                        XK_3,                      2)
-TAGKEYS(                        XK_4,                      3)
-TAGKEYS(                        XK_5,                      4)
-TAGKEYS(                        XK_6,                      5)
-TAGKEYS(                        XK_7,                      6)
-TAGKEYS(                        XK_8,                      7)
+  TAGKEYS(                        XK_1,                      0)
+  TAGKEYS(                        XK_2,                      1)
+  TAGKEYS(                        XK_3,                      2)
+  TAGKEYS(                        XK_4,                      3)
+  TAGKEYS(                        XK_5,                      4)
+  TAGKEYS(                        XK_6,                      5)
+  TAGKEYS(                        XK_7,                      6)
+  TAGKEYS(                        XK_8,                      7)
 // Gaps
-{ MODKEY|Mod1Mask,              XK_u,      incrgaps,       {.i = +1 } },
-{ MODKEY|Mod1Mask|ShiftMask,    XK_u,      incrgaps,       {.i = -1 } },
-{ MODKEY|Mod1Mask,              XK_i,      incrigaps,      {.i = +1 } },
-{ MODKEY|Mod1Mask|ShiftMask,    XK_i,      incrigaps,      {.i = -1 } },
-{ MODKEY|Mod1Mask,              XK_o,      incrogaps,      {.i = +1 } },
-{ MODKEY|Mod1Mask|ShiftMask,    XK_o,      incrogaps,      {.i = -1 } },
-{ MODKEY|Mod1Mask,              XK_6,      incrihgaps,     {.i = +1 } },
-{ MODKEY|Mod1Mask|ShiftMask,    XK_6,      incrihgaps,     {.i = -1 } },
-{ MODKEY|Mod1Mask,              XK_7,      incrivgaps,     {.i = +1 } },
-{ MODKEY|Mod1Mask|ShiftMask,    XK_7,      incrivgaps,     {.i = -1 } },
-{ MODKEY|Mod1Mask,              XK_8,      incrohgaps,     {.i = +1 } },
-{ MODKEY|Mod1Mask|ShiftMask,    XK_8,      incrohgaps,     {.i = -1 } },
-{ MODKEY|Mod1Mask,              XK_9,      incrovgaps,     {.i = +1 } },
-{ MODKEY|Mod1Mask|ShiftMask,    XK_9,      incrovgaps,     {.i = -1 } },
-{ MODKEY|Mod1Mask,              XK_0,      togglegaps,     {0} },
-{ MODKEY|Mod1Mask|ShiftMask,    XK_0,      defaultgaps,    {0} },
+  { MODKEY|Mod1Mask,              XK_u,      incrgaps,       {.i = +1 } },
+  { MODKEY|Mod1Mask|ShiftMask,    XK_u,      incrgaps,       {.i = -1 } },
+  { MODKEY|Mod1Mask,              XK_i,      incrigaps,      {.i = +1 } },
+  { MODKEY|Mod1Mask|ShiftMask,    XK_i,      incrigaps,      {.i = -1 } },
+  { MODKEY|Mod1Mask,              XK_o,      incrogaps,      {.i = +1 } },
+  { MODKEY|Mod1Mask|ShiftMask,    XK_o,      incrogaps,      {.i = -1 } },
+  { MODKEY|Mod1Mask,              XK_6,      incrihgaps,     {.i = +1 } },
+  { MODKEY|Mod1Mask|ShiftMask,    XK_6,      incrihgaps,     {.i = -1 } },
+  { MODKEY|Mod1Mask,              XK_7,      incrivgaps,     {.i = +1 } },
+  { MODKEY|Mod1Mask|ShiftMask,    XK_7,      incrivgaps,     {.i = -1 } },
+  { MODKEY|Mod1Mask,              XK_8,      incrohgaps,     {.i = +1 } },
+  { MODKEY|Mod1Mask|ShiftMask,    XK_8,      incrohgaps,     {.i = -1 } },
+  { MODKEY|Mod1Mask,              XK_9,      incrovgaps,     {.i = +1 } },
+  { MODKEY|Mod1Mask|ShiftMask,    XK_9,      incrovgaps,     {.i = -1 } },
+  { MODKEY|Mod1Mask,              XK_0,      togglegaps,     {0} },
+  { MODKEY|Mod1Mask|ShiftMask,    XK_0,      defaultgaps,    {0} },
 };
 
 /* button definitions */

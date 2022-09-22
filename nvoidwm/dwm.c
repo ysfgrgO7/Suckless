@@ -20,7 +20,6 @@
  *
  * To understand everything else, start reading main().
  */
-// New
 #include <X11/Xatom.h>
 #include <X11/Xlib.h>
 #include <X11/Xproto.h>
@@ -37,8 +36,6 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
-// #include <limits.h>
-// #include <stdint.h>
 #ifdef XINERAMA
 #include <X11/extensions/Xinerama.h>
 #endif /* XINERAMA */
@@ -111,10 +108,10 @@ enum {
   SchemeBtnNext,
   SchemeBtnClose
 }; /* color schemes */
-enum { 
-  NetSupported, 
-  NetWMName, 
-  NetWMState, 
+enum {
+  NetSupported,
+  NetWMName,
+  NetWMState,
   NetWMCheck,
   NetSystemTray,
   NetSystemTrayOP,
@@ -188,7 +185,7 @@ struct Client {
   int bw, oldbw;
   unsigned int tags;
   int isfixed, iscentered, isfloating, isurgent, neverfocus, oldstate, isfullscreen;
-  int beingmoved;
+	int beingmoved;
   Client *next;
   Client *snext;
   Monitor *mon;
@@ -230,6 +227,7 @@ static int applysizehints(Client *c, int *x, int *y, int *w, int *h,
 static void arrange(Monitor *m);
 static void arrangemon(Monitor *m);
 static void attach(Client *c);
+static void attachbottom(Client *c);
 static void attachstack(Client *c);
 static void buttonpress(XEvent *e);
 static void checkotherwm(void);
@@ -614,6 +612,13 @@ void attach(Client *c) {
   c->mon->clients = c;
 }
 
+void attachbottom(Client *c) {
+	Client **tc;
+	c->next = NULL;
+	for (tc = &c->mon->clients; *tc; tc = &(*tc)->next);
+	*tc = c;
+}
+
 void attachstack(Client *c) {
   c->snext = c->mon->stack;
   c->mon->stack = c;
@@ -648,9 +653,9 @@ void buttonpress(XEvent *e) {
       arg.ui = 1 << i;
 	} else if (ev->x < x + blw)
       click = ClkLtSymbol;
-		else if (ev->x > selmon->ww - TEXTW(stext))
+    else if (ev->x > selmon->ww - (int)TEXTW(stext))
          click = ClkStatusText;
-        else
+  else
          click = ClkWinTitle;
   }
     	
@@ -685,7 +690,6 @@ void buttonpress(XEvent *e) {
     XAllowEvents(dpy, ReplayPointer, CurrentTime);
     click = ClkClientWin;
   }
-
   for (i = 0; i < LENGTH(buttons); i++)
     if (click == buttons[i].click && buttons[i].func &&
         buttons[i].button == ev->button &&
@@ -1496,6 +1500,7 @@ void drawbar(Monitor *m) {
   }
   w = blw = TEXTW(m->ltsymbol);
   drw_setscheme(drw, scheme[SchemeLayout]);
+  x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
 
   if ((w = mw + m->gappov * 2 - sw - stw - x) > bh_n) {
     if (m->sel) {
@@ -1990,7 +1995,7 @@ void manage(Window w, XWindowAttributes *wa) {
     c->isfloating = c->oldstate = trans != None || c->isfixed;
   if (c->isfloating)
     XRaiseWindow(dpy, c->win);
-  attach(c);
+  attachbottom(c);
   attachstack(c);
   XChangeProperty(dpy, root, netatom[NetClientList], XA_WINDOW, 32,
                   PropModeAppend, (unsigned char *)&(c->win), 1);
@@ -2297,7 +2302,8 @@ placemouse(const Arg *arg)
 		arrangemon(c->mon);
 		c->mon = m;
 		c->tags = m->tagset[m->seltags];
-		attach(c);
+		// attach(c);
+		attachbottom(c);
 		attachstack(c);
 		selmon = m;
 	}
@@ -2359,24 +2365,21 @@ void propertynotify(XEvent *e) {
         drawbar(c->mon);
       drawtab(c->mon);
     }
-
     if (ev->atom == netatom[NetWMWindowType])
       updatewindowtype(c);
   }
 }
 
-void
-quit(const Arg *arg)
-{
-	size_t i;
+void quit(const Arg *arg) {
+  size_t i;
 
-	/* kill child processes */
-	for (i = 0; i < autostart_len; i++) {
-		if (0 < autostart_pids[i]) {
-			kill(autostart_pids[i], SIGTERM);
-			waitpid(autostart_pids[i], NULL, 0);
-		}
-	}
+  /* kill child processes */
+  for (i = 0; i < autostart_len; i++) {
+  	if (0 < autostart_pids[i]) {
+  		kill(autostart_pids[i], SIGTERM);
+  		waitpid(autostart_pids[i], NULL, 0);
+  	}
+  }
 
 	if(arg->i) restart = 1;
 	running = 0;
@@ -2593,7 +2596,7 @@ void sendmon(Client *c, Monitor *m) {
   detachstack(c);
   c->mon = m;
   c->tags = m->tagset[m->seltags]; /* assign tags of target monitor */
-  attach(c);
+  attachbottom(c);
   attachstack(c);
   setclienttagprop(c);
   focus(NULL);
@@ -2939,29 +2942,27 @@ showtagpreview(int tag)
 
 
 void sigchld(int unused) {
-	pid_t pid;
-
+  pid_t pid;
   if (signal(SIGCHLD, sigchld) == SIG_ERR)
     die("can't install SIGCHLD handler:");
   while (0 < (pid = waitpid(-1, NULL, WNOHANG))) {
-	pid_t *p, *lim;
+      pid_t *p, *lim;
 
-	if (!(p = autostart_pids))
-		continue;
-	lim = &p[autostart_len];
+      if (!(p = autostart_pids))
+          continue;
+      lim = &p[autostart_len];
 
-	for (; p < lim; p++) {
-		if (*p == pid) {
-			*p = -1;
-			break;
-		}
-	}
+      for (; p < lim; p++) {
+          if (*p == pid) {
+              *p = -1;
+              break;
+          }
+      }
 
+  }
 }
 
-}
-
- void sighup(int unused) {
+void sighup(int unused) {
 	Arg a = {.i = 1};
 	quit(&a);
 }
@@ -3367,7 +3368,7 @@ int updategeom(void) {
           m->clients = c->next;
           detachstack(c);
           c->mon = mons;
-          attach(c);
+    	  attachbottom(c);
           attachstack(c);
         }
         if (m == selmon)

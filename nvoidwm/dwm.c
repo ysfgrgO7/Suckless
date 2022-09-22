@@ -638,6 +638,8 @@ void buttonpress(XEvent *e) {
     unfocus(selmon->sel, 1);
     selmon = m;
     focus(NULL);
+	if (selmon->sel)
+		XWarpPointer(dpy, None, selmon->sel->win, 0, 0, 0, 0, selmon->sel->w/2, selmon->sel->h/2);
   }
   if (ev->window == selmon->barwin) {
     	if (selmon->previewshow) {
@@ -1471,7 +1473,7 @@ void drawbar(Monitor *m) {
    		return;
 
   /* draw status first so it can be overdrawn by tags later */
-  if (m == selmon) { /* status is only drawn on selected monitor */
+  if (m == selmon || 1) { /* status is only drawn on selected monitor */
     sw = mw - drawstatusbar(m, bh_n, stext);
   }
 
@@ -2178,6 +2180,8 @@ void movemouse(const Arg *arg) {
     sendmon(c, m);
     selmon = m;
     focus(NULL);
+	if (selmon->sel)
+		XWarpPointer(dpy, None, selmon->sel->win, 0, 0, 0, 0, selmon->sel->w/2, selmon->sel->h/2);
   }
 }
 
@@ -2520,6 +2524,9 @@ void resizemouse(const Arg *arg) {
     sendmon(c, m);
     selmon = m;
     focus(NULL);
+	if (selmon->sel)
+		XWarpPointer(dpy, None, selmon->sel->win, 0, 0, 0, 0, selmon->sel->w/2, selmon->sel->h/2);
+
   }
 }
 
@@ -3460,10 +3467,12 @@ void updatesizehints(Client *c) {
 }
 
 void updatestatus(void) {
+  Monitor* m;
   if (!gettextprop(root, XA_WM_NAME, stext, sizeof(stext)))
     strcpy(stext, "dwm-" VERSION);
-  drawbar(selmon);
-  updatesystray();
+    updatesystray();
+  for(m = mons; m; m = m->next)
+      drawbar(m);
 }
 
 void updatesystrayicongeom(Client *i, int w, int h) {

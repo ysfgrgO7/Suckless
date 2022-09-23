@@ -21,8 +21,7 @@ typedef struct {
 	int screen;
 	Window root;
 	Drawable drawable;
- 	Picture picture;
-  Pixmap bgmap;
+        Pixmap bgmap;
 	GC gc;
 	Clr *scheme;
 	Fnt *fonts;

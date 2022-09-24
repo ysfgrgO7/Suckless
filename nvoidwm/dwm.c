@@ -1098,7 +1098,7 @@ int drawstatusbar(Monitor *m, int bh, char *stext) {
 
   w += horizpadbar;
   ret = x = m->ww - m->gappov * 2 - borderpx - w;
-  x = m->ww - m->gappov * 2 - borderpx - w - getsystraywidth();
+  x = m->ww - m->gappov * 2 - borderpx - w -((showsystray && m == systraytomon(m)) ? getsystraywidth() : 0);
 
 
   drw_setscheme(drw, scheme[LENGTH(colors)]);

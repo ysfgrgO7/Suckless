@@ -65,11 +65,11 @@ static const char *const autostart[] = {
 /* tagging */
 static char *tags[] = {"", "", "", "", ""};
 
-static const char* eww[] = { "eww", "open" , "eww", NULL };
+static const char* launcher[] = { "st", "open" ,NULL };
 
 static const Launcher launchers[] = {
     /* command     name to display */
-    { eww,         "" },
+    { launcher,         "" },
 };
 
 static const int tagschemes[] = {
@@ -138,17 +138,15 @@ static Key keys[] = {
     /* modifier                         key         function        argument */
 
     // brightness and audio 
-    {0,                     XF86XK_AudioMute,       spawn,          SHCMD("pamixer -t")},
+    {0,               XF86XK_AudioMute,             spawn,          SHCMD("pamixer -t")},
     {0,              XF86XK_AudioRaiseVolume,       spawn,          SHCMD("pamixer -i 5")},
     {0,              XF86XK_AudioLowerVolume,       spawn,          SHCMD("pamixer -d 5")},
     {0,              XF86XK_MonBrightnessDown,      spawn,          SHCMD("xbacklight -dec 5")},
     {0,              XF86XK_MonBrightnessUp,        spawn,          SHCMD("xbacklight -inc 5")},
 
     // screenshot fullscreen and cropped
-    {MODKEY|ControlMask,                XK_u,       spawn,
-        SHCMD("maim | xclip -selection clipboard -t image/png")},
-    {MODKEY,                            XK_u,       spawn,
-        SHCMD("maim --select | xclip -selection clipboard -t image/png")},
+    {MODKEY|ControlMask,                XK_u,       spawn, SHCMD("maim | xclip -selection clipboard -t image/png")},
+    {MODKEY,                            XK_u,       spawn, SHCMD("maim --select | xclip -selection clipboard -t image/png")},
 
     { MODKEY,                           XK_c,       spawn,          SHCMD("rofi -show drun") },
     { MODKEY,                           XK_Return,  spawn,            SHCMD("st")},

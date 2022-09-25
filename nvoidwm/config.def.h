@@ -130,65 +130,73 @@ static const Layout layouts[] = {
     { MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
+/* commands */
+static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
+static const char *dmenucmd[]     = { "dmenu_run", "-c", "-l", "20", "-g", "2", "-p", "Run :", NULL };
+static const char *roficmd[]      = { "rofi", "-show", "drun", NULL };
+static const char *rofiwcmd[]     = { "rofi", "-show", "window", NULL };
+static const char *termcmd[]      = { "alacritty", NULL };
+static const char *fmcmd[]        = { "pcmanfm", NULL };
+static const char *tuifmcmd[]     = { "alacritty", "-e", "ranger", NULL };
+static const char *webcmd[]       = { "brave", NULL };
+static const char *scrotcmd[]     = { "scrot", NULL };
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
-/* commands */
-
 static Key keys[] = {
-    /* modifier                         key         function        argument */
-
-    // brightness and audio 
-    {0,               XF86XK_AudioMute,             spawn,          SHCMD("pamixer -t")},
+   // Brightness and Audio 
+    {0,              XF86XK_AudioMute,              spawn,          SHCMD("pamixer -t")},
     {0,              XF86XK_AudioRaiseVolume,       spawn,          SHCMD("pamixer -i 5")},
     {0,              XF86XK_AudioLowerVolume,       spawn,          SHCMD("pamixer -d 5")},
     {0,              XF86XK_MonBrightnessDown,      spawn,          SHCMD("xbacklight -dec 5")},
     {0,              XF86XK_MonBrightnessUp,        spawn,          SHCMD("xbacklight -inc 5")},
-
-    // screenshot fullscreen and cropped
-    {MODKEY|ControlMask,                XK_u,       spawn, SHCMD("maim | xclip -selection clipboard -t image/png")},
-    {MODKEY,                            XK_u,       spawn, SHCMD("maim --select | xclip -selection clipboard -t image/png")},
-
-    { MODKEY,                           XK_c,       spawn,          SHCMD("rofi -show drun") },
-    { MODKEY,                           XK_Return,  spawn,            SHCMD("st")},
-
-    // toggle stuff
-    { MODKEY,                           XK_b,       togglebar,      {0} },
-    { MODKEY|ControlMask,               XK_t,       togglegaps,     {0} },
-    { MODKEY|ShiftMask,                 XK_space,   togglefloating, {0} },
-    { MODKEY,                           XK_f,       togglefullscr,  {0} },
-
-    { MODKEY|ControlMask,               XK_w,       tabmode,        { -1 } },
-    { MODKEY,                           XK_j,       focusstack,     {.i = +1 } },
-    { MODKEY,                           XK_k,       focusstack,     {.i = -1 } },
-    { MODKEY,                           XK_i,       incnmaster,     {.i = +1 } },
-    { MODKEY,                           XK_d,       incnmaster,     {.i = -1 } },
-
-    // change m,cfact sizes 
+   // Basics
+    { MODKEY,                           XK_Return,  spawn,          {.v = termcmd } },
+    { MODKEY,                           XK_d,       spawn,          {.v = dmenucmd } },
+    { MODKEY,                           XK_w,       spawn,          {.v = webcmd } },
+    { MODKEY,                           XK_e,       spawn,          {.v = tuifmcmd } },
+    { MODKEY|ShiftMask,                 XK_e,       spawn,          {.v = fmcmd } },
+    { MODKEY|ShiftMask,                 XK_s,       spawn,          {.v = scrotcmd } },
+    { MODKEY|ShiftMask,                 XK_Return,  spawn,          {.v = roficmd } },
+    { MODKEY|ShiftMask,                 XK_d,       spawn,          {.v = rofiwcmd } },
+   // Borders
+    { MODKEY|ShiftMask,                 XK_b,       setborderpx,    {.i = -1 } },
+    { MODKEY|ControlMask,               XK_b,       setborderpx,    {.i = +1 } },
+    { MODKEY|ShiftMask,                 XK_w,       setborderpx,    {.i = default_border } },
+   // Change Windows Sizes
     { MODKEY,                           XK_h,       setmfact,       {.f = -0.05} },
     { MODKEY,                           XK_l,       setmfact,       {.f = +0.05} },
     { MODKEY|ShiftMask,                 XK_h,       setcfact,       {.f = +0.25} },
     { MODKEY|ShiftMask,                 XK_l,       setcfact,       {.f = -0.25} },
-    { MODKEY|ShiftMask,                 XK_o,       setcfact,       {.f =  0.00} },
-
-
-    { MODKEY|ShiftMask,                 XK_j,       movestack,      {.i = +1 } },
-    { MODKEY|ShiftMask,                 XK_k,       movestack,      {.i = -1 } },
-    { MODKEY|ShiftMask,                 XK_Return,  zoom,           {0} },
-    { MODKEY,                           XK_Tab,     view,           {0} },
-
-    // overall gaps
+    { MODKEY|ControlMask,               XK_f ,      setcfact,       {.f =  0.00} },
+   // Dwm Stuff
+    { MODKEY,                           XK_space,   focusstack,     {.i = +1 } },
+    { MODKEY,                           XK_b,       togglebar,      {0} },
+    { MODKEY,                           XK_c,       zoom,           {0} },
+    { MODKEY|ShiftMask,                 XK_i,       incnmaster,     {.i = +1 } },
+    { MODKEY|ShiftMask,                 XK_d,       incnmaster,     {.i = -1 } },
+    { MODKEY|ShiftMask,                 XK_c,       killclient,     {0} },
+	{ MODKEY|ShiftMask,                 XK_q,       quit,           {0} },
+	{ MODKEY|ControlMask|ShiftMask,     XK_q,       quit,           {1} }, 
+   // Monitors
+    { MODKEY,                           XK_o,       focusmon,       {.i = +1 } },
+    { MODKEY|ShiftMask,                 XK_o,       tagmon,         {.i = +1 } },
+   // layout
+    { MODKEY,                           XK_f,      togglefloating, {0} },
+    { MODKEY,                           XK_Tab,    cyclelayout,    {.i = +1 } },
+    { MODKEY,                           XK_t,      setlayout,      {.v = &layouts[0]} },
+    { MODKEY|ControlMask,               XK_w,      tabmode,        { -1 } },
+    { MODKEY|ShiftMask,                 XK_space,  togglefullscr,  {0} },
+    // hide & restore windows
+    // { MODKEY,                           XK_e,       hidewin,        {0} },
+    // { MODKEY|ShiftMask,                 XK_e,       restorewin,     {0} },
+   // Gaps
+    { MODKEY|ControlMask,               XK_t,       togglegaps,     {0} },
     { MODKEY|ControlMask,               XK_i,       incrgaps,       {.i = +1 } },
     { MODKEY|ControlMask,               XK_d,       incrgaps,       {.i = -1 } },
-
-    // inner gaps
     { MODKEY|ShiftMask,                 XK_i,       incrigaps,      {.i = +1 } },
     { MODKEY|ControlMask|ShiftMask,     XK_i,       incrigaps,      {.i = -1 } },
-
-    // outer gaps
     { MODKEY|ControlMask,               XK_o,       incrogaps,      {.i = +1 } },
     { MODKEY|ControlMask|ShiftMask,     XK_o,       incrogaps,      {.i = -1 } },
-
-    // inner+outer hori, vert gaps 
     { MODKEY|ControlMask,               XK_6,       incrihgaps,     {.i = +1 } },
     { MODKEY|ControlMask|ShiftMask,     XK_6,       incrihgaps,     {.i = -1 } },
     { MODKEY|ControlMask,               XK_7,       incrivgaps,     {.i = +1 } },
@@ -197,41 +205,7 @@ static Key keys[] = {
     { MODKEY|ControlMask|ShiftMask,     XK_8,       incrohgaps,     {.i = -1 } },
     { MODKEY|ControlMask,               XK_9,       incrovgaps,     {.i = +1 } },
     { MODKEY|ControlMask|ShiftMask,     XK_9,       incrovgaps,     {.i = -1 } },
-
     { MODKEY|ControlMask|ShiftMask,     XK_d,       defaultgaps,    {0} },
-
-    // layout
-    { MODKEY,                           XK_t,       setlayout,      {.v = &layouts[0]} },
-    { MODKEY|ShiftMask,                 XK_f,       setlayout,      {.v = &layouts[1]} },
-    { MODKEY,                           XK_m,       setlayout,      {.v = &layouts[2]} },
-    { MODKEY|ControlMask,               XK_g,       setlayout,      {.v = &layouts[10]} },
-    { MODKEY|ControlMask|ShiftMask,     XK_t,       setlayout,      {.v = &layouts[13]} },
-    { MODKEY,                           XK_space,   setlayout,      {0} },
-    { MODKEY|ControlMask,               XK_comma,   cyclelayout,    {.i = -1 } },
-    { MODKEY|ControlMask,               XK_period,  cyclelayout,    {.i = +1 } },
-    { MODKEY,                           XK_0,       view,           {.ui = ~0 } },
-    { MODKEY|ShiftMask,                 XK_0,       tag,            {.ui = ~0 } },
-    { MODKEY,                           XK_comma,   focusmon,       {.i = -1 } },
-    { MODKEY,                           XK_period,  focusmon,       {.i = +1 } },
-    { MODKEY|ShiftMask,                 XK_comma,   tagmon,         {.i = -1 } },
-    { MODKEY|ShiftMask,                 XK_period,  tagmon,         {.i = +1 } },
-
-    // change border size
-    { MODKEY|ShiftMask,                 XK_minus,   setborderpx,    {.i = -1 } },
-    { MODKEY|ShiftMask,                 XK_p,       setborderpx,    {.i = +1 } },
-    { MODKEY|ShiftMask,                 XK_w,       setborderpx,    {.i = default_border } },
-
-    // kill window
-    { MODKEY,                           XK_q,       killclient,     {0} },
-
-    // restart
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} }, 
-
-    // hide & restore windows
-    { MODKEY,                           XK_e,       hidewin,        {0} },
-    { MODKEY|ShiftMask,                 XK_e,       restorewin,     {0} },
-
     TAGKEYS(                            XK_1,                       0)
     TAGKEYS(                            XK_2,                       1)
     TAGKEYS(                            XK_3,                       2)

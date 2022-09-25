@@ -113,14 +113,13 @@ static const char *scrotcmd[]     = { "scrot", NULL };
 
 static Key keys[] = {
 // Apps 
-{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
-{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
-{ MODKEY,                       XK_w,      spawn,          {.v = webcmd } },
-{ MODKEY,                       XK_e,      spawn,          {.v = tuifmcmd } },
-{ MODKEY|ShiftMask,             XK_s,      spawn,          {.v = scrotcmd } },
+// { MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+// { MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
+// { MODKEY,                       XK_w,      spawn,          {.v = webcmd } },
+// { MODKEY,                       XK_e,      spawn,          {.v = tuifmcmd } },
+// { MODKEY|ShiftMask,             XK_s,      spawn,          {.v = scrotcmd } },
 { MODKEY|ShiftMask,             XK_Return, spawn,          {.v = roficmd } },
 { MODKEY|ShiftMask,             XK_d,      spawn,          {.v = rofiwcmd } },
-{ MODKEY|ShiftMask,             XK_e,      spawn,          {.v = fmcmd } },
 // Layout Controls
 { MODKEY,                       XK_f,      togglefloating, {0} },
 { MODKEY,                       XK_Tab,    cyclelayout,    {.i = +1 } },

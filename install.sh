@@ -22,7 +22,7 @@ mkdir -p ~/.config
 git clone https://github.com/ysfgrgO7/Suckless.git ~/.config/suckless
 
 # Building
-cd ~/.config/suckless/dwm/
+cd ~/.config/suckless/nvoidwm/
 rm -f config.h
 sudo make clean install
 cd ../dmenu

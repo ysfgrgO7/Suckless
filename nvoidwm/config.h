@@ -131,7 +131,8 @@ static const Layout layouts[] = {
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 /* commands */
-static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
+// static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
+#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 static const char *dmenucmd[]     = { "dmenu_run", "-c", "-l", "20", "-g", "2", "-p", "Run :", NULL };
 static const char *roficmd[]      = { "rofi", "-show", "drun", NULL };
 static const char *rofiwcmd[]     = { "rofi", "-show", "window", NULL };
@@ -140,7 +141,6 @@ static const char *fmcmd[]        = { "pcmanfm", NULL };
 static const char *tuifmcmd[]     = { "alacritty", "-e", "ranger", NULL };
 static const char *webcmd[]       = { "brave", NULL };
 static const char *scrotcmd[]     = { "scrot", NULL };
-#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 static Key keys[] = {
    // Brightness and Audio 
@@ -186,9 +186,6 @@ static Key keys[] = {
     { MODKEY,                           XK_t,      setlayout,      {.v = &layouts[0]} },
     { MODKEY|ControlMask,               XK_w,      tabmode,        { -1 } },
     { MODKEY|ShiftMask,                 XK_space,  togglefullscr,  {0} },
-    // hide & restore windows
-    // { MODKEY,                           XK_e,       hidewin,        {0} },
-    // { MODKEY|ShiftMask,                 XK_e,       restorewin,     {0} },
    // Gaps
     { MODKEY|ControlMask,               XK_t,       togglegaps,     {0} },
     { MODKEY|ControlMask,               XK_i,       incrgaps,       {.i = +1 } },
@@ -242,8 +239,8 @@ static Button buttons[] = {
     { ClkClientWin,         MODKEY,         Button1,        moveorplace,    {.i = 0} },
     { ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
     { ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
-    { ClkClientWin,         ControlMask,    Button1,        dragmfact,      {0} },
-    { ClkClientWin,         ControlMask,    Button3,        dragcfact,      {0} },
+    // { ClkClientWin,         ControlMask,    Button1,        dragmfact,      {0} },
+    // { ClkClientWin,         ControlMask,    Button3,        dragcfact,      {0} },
     { ClkTagBar,            0,              Button1,        view,           {0} },
     { ClkTagBar,            0,              Button3,        toggleview,     {0} },
     { ClkTagBar,            MODKEY,         Button1,        tag,            {0} },

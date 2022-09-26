@@ -44,4 +44,9 @@
 *.orig
 *.rej
 
-dwm
+nvoidwm/dwm 
+nvoidwm/config.h 
+nvoidwm/*.o
+nvoidwm/*.orig
+nvoidwm/*.rej
+.ccls-cache/

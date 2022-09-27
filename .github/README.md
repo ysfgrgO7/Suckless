@@ -1,23 +1,43 @@
-# Dwm / Status Bar / Dmenu
-+ Dwm
+# Suckless
+## nvoidwm
   + Patches
-     + Attach Bottom
-     + Bar Padding
-     + Color Bar
-     + Cool AutoStart
-     + Cursor Warp
-     + Cycle Layouts
-     + Fix Borders
-     + Hide Vacant Tags
-     + No title
-     + Pertag
-     + RestartSig
-     + Scratch Pads
-     + Status Padding
-     + Underline Tags
-     + VanityGaps
+    + attachbottom
+    + barpadding
+    + cfacts
+    + cool autostart
+    + movestack
+    + notitle
+    + preserveonrestart
+    + restartsig
+    + status2d
+    + statusallmons
+    + statuspadding
+    + underline tags
+    + vanity gaps
+  + Layouts
+    + bstack
+    + bstackhoriz
+    + centeredfloatingmaster
+    + centeredmaster
+    + deck
+    + dwindle
+    + floating
+    + gaplessgrid
+    + grid
+    + horizgrid
+    + monocle
+    + nrowgrid
+    + spiral
+    + tile
+  + Themes
+    + catppuccin
+    + dracula
+    + everblush
+    + gruvbox
+    + nord
+    + onedark
 
-+ Dmenu
+## Dmenu
   + Patches
      + Border
      + Center
@@ -26,11 +46,7 @@
      + Gird Nav
      + Mouse Support
      + Numbers
-+ Scrot
-![DWM_DMENU_SCROT](https://user-images.githubusercontent.com/94284073/142051074-b0f4a5ae-a46e-449a-b5eb-e62772368a60.png)
 
-# St
+## St
   + Patches 
      + Cann't Remember (A Lot)
-  + Scrot 
-![ST_SCROT](https://user-images.githubusercontent.com/94284073/142051132-f1874767-f1b9-4e8b-b54c-4c89e410e40b.png)

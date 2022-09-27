@@ -3,13 +3,13 @@
 
 include config.mk
 
-SRC = drw.c dwm.c util.c
+SRC = drw.c nvoidwm.c util.c
 OBJ = ${SRC:.c=.o}
 
-all: options dwm
+all: options nvoidwm
 
 options:
-	@echo dwm build options:
+	@echo nvoidwm build options:
 	@echo "CFLAGS   = ${CFLAGS}"
 	@echo "LDFLAGS  = ${LDFLAGS}"
 	@echo "CC       = ${CC}"
@@ -22,30 +22,30 @@ ${OBJ}: config.h config.mk
 config.h:
 	cp config.def.h $@
 
-dwm: ${OBJ}
+nvoidwm: ${OBJ}
 	${CC} -o $@ ${OBJ} ${LDFLAGS}
 
 clean:
-	rm -f dwm ${OBJ} dwm-${VERSION}.tar.gz config.h
+	rm -f nvoidwm ${OBJ} nvoidwm-${VERSION}.tar.gz config.h
 
 dist: clean
-	mkdir -p dwm-${VERSION}
+	mkdir -p nvoidwm-${VERSION}
 	cp -R LICENSE Makefile README config.def.h config.mk\
-		dwm.1 drw.h util.h ${SRC} dwm.png transient.c dwm-${VERSION}
-	tar -cf dwm-${VERSION}.tar dwm-${VERSION}
-	gzip dwm-${VERSION}.tar
-	rm -rf dwm-${VERSION}
+		nvoidwm.1 drw.h util.h ${SRC} nvoidwm.png transient.c nvoidwm-${VERSION}
+	tar -cf nvoidwm-${VERSION}.tar nvoidwm-${VERSION}
+	gzip nvoidwm-${VERSION}.tar
+	rm -rf nvoidwm-${VERSION}
 
 install: all
 	mkdir -p ${DESTDIR}${PREFIX}/bin
-	cp -f dwm ${DESTDIR}${PREFIX}/bin
-	chmod 755 ${DESTDIR}${PREFIX}/bin/dwm
+	cp -f nvoidwm ${DESTDIR}${PREFIX}/bin
+	chmod 755 ${DESTDIR}${PREFIX}/bin/nvoidwm
 	mkdir -p ${DESTDIR}${MANPREFIX}/man1
-	sed "s/VERSION/${VERSION}/g" < dwm.1 > ${DESTDIR}${MANPREFIX}/man1/dwm.1
-	chmod 644 ${DESTDIR}${MANPREFIX}/man1/dwm.1
+	sed "s/VERSION/${VERSION}/g" < nvoidwm.1 > ${DESTDIR}${MANPREFIX}/man1/nvoidwm.1
+	chmod 644 ${DESTDIR}${MANPREFIX}/man1/nvoidwm.1
 
 uninstall:
-	rm -f ${DESTDIR}${PREFIX}/bin/dwm\
-		${DESTDIR}${MANPREFIX}/man1/dwm.1
+	rm -f ${DESTDIR}${PREFIX}/bin/nvoidwm\
+		${DESTDIR}${MANPREFIX}/man1/nvoidwm.1
 
 .PHONY: all options clean dist install uninstall

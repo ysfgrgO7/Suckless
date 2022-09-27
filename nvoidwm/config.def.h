@@ -25,8 +25,8 @@ static const int vertpadtab         = 35;
 static const int horizpadtabi       = 15;
 static const int horizpadtabo       = 15;
 static const int scalepreview       = 4;
-static const int tag_preview        = 0;        /* 1 means enable, 0 is off */
-static const int colorfultag        = 1;        /* 0 means use SchemeSel for selected non vacant tag */
+static const int tag_preview        = 1;        /* 1 means enable, 0 is off */
+// static const int colorfultag        = 1;        /* 0 means use SchemeSel for selected non vacant tag */
 static const char *fonts[]          = { "JetbrainsMono nerd font:size=12",
 "Material Design Icons Desktop:size=12"
 };
@@ -38,14 +38,10 @@ static const char *colors[][3]      = {
     /*                     fg       bg      border */
     [SchemeNorm]       = { gray3,   black,  gray2 },
     [SchemeSel]        = { gray4,   blue,   blue  },
+    [SchemeTagsSel]    = { blue,    black,  blue  },
+    [SchemeTagsNorm]   = { gray3,   black,  blue  },
     [TabSel]           = { blue,    gray2,  black },
     [TabNorm]          = { gray3,   black,  black },
-    [SchemeTag]        = { gray3,   black,  black },
-    [SchemeTag1]       = { blue,    black,  black },
-    [SchemeTag2]       = { red,     black,  black },
-    [SchemeTag3]       = { orange,  black,  black },
-    [SchemeTag4]       = { green,   black,  black },
-    [SchemeTag5]       = { pink,    black,  black },
     [SchemeLayout]     = { green,   black,  black },
     [SchemeBtnPrev]    = { green,   black,  black },
     [SchemeBtnNext]    = { yellow,  black,  black },
@@ -63,7 +59,7 @@ static const char *const autostart[] = {
 };
 
 /* tagging */
-static char *tags[] = {"", "", "", "", ""};
+static char *tags[] = {"1", "2", "3", "4", "5"};
 
 static const char* launcher[] = { "st", "open" ,NULL };
 
@@ -72,9 +68,9 @@ static const Launcher launchers[] = {
     { launcher,         "" },
 };
 
-static const int tagschemes[] = {
-    SchemeTag1, SchemeTag2, SchemeTag3, SchemeTag4, SchemeTag5
-};
+// static const int tagschemes[] = {
+    // SchemeTag1, SchemeTag2, SchemeTag3, SchemeTag4, SchemeTag5
+// };
 
 static const unsigned int ulinepad      = 5; /* horizontal padding between the underline and tag */
 static const unsigned int ulinestroke   = 2; /* thickness / height of the underline */

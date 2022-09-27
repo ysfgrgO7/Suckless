@@ -94,12 +94,8 @@ enum {
 enum {
   SchemeNorm,
   SchemeSel,
-  SchemeTag,
-  SchemeTag1,
-  SchemeTag2,
-  SchemeTag3,
-  SchemeTag4,
-  SchemeTag5,
+  SchemeTagsSel,
+  SchemeTagsNorm,
   SchemeLayout,
   TabSel,
   TabNorm,
@@ -415,7 +411,6 @@ struct Monitor {
   unsigned int seltags;
   unsigned int sellt;
   unsigned int tagset[2];
-  unsigned int colorfultag;
   int showbar, showtab;
   int topbar, toptab;
   Client *clients;
@@ -470,7 +465,7 @@ autostart_exec() {
 		if ((autostart_pids[i] = fork()) == 0) {
 			setsid();
 			execvp(*p, (char *const *)p);
-			fprintf(stderr, "dwm: execvp %s\n", *p);
+			fprintf(stderr, "nvoidwm: execvp %s\n", *p);
 			perror(" failed");
 			_exit(EXIT_FAILURE);
 		}
@@ -643,9 +638,15 @@ void buttonpress(XEvent *e) {
 			selmon->previewshow = 0;
 	}
     i = x = 0;
-    do
+	unsigned int occ = 0;
+	for(c = m->clients; c; c=c->next)
+		occ |= c->tags;
+	do {
+		/* Do not reserve space for vacant tags */
+		if (!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
+			continue;
       x += TEXTW(tags[i]);
-    while (ev->x >= x && ++i < LENGTH(tags));
+	} while (ev->x >= x && ++i < LENGTH(tags));
     if (i < LENGTH(tags)) {
       click = ClkTagBar;
       arg.ui = 1 << i;
@@ -819,7 +820,7 @@ void clientmessage(XEvent *e) {
       XSelectInput(dpy, c->win,
                    StructureNotifyMask | PropertyChangeMask |
                        ResizeRedirectMask);
-      XClassHint ch = {"dwmsystray", "dwmsystray"};
+      XClassHint ch = {"nvoidwmsystray", "nvoidwmsystray"};
       XSetClassHint(dpy, c->win, &ch);
       XReparentWindow(dpy, c->win, systray->win, 0, 0);
       /* use parents background color */
@@ -964,7 +965,6 @@ Monitor *createmon(void) {
   m->topbar = topbar;
   m->toptab = toptab;
   m->ntabs = 0;
-  m->colorfultag = colorfultag ? colorfultag : 0;
   m->gappih = gappih;
   m->gappiv = gappiv;
   m->gappoh = gappoh;
@@ -1204,8 +1204,11 @@ void drawbar(Monitor *m) {
   }
   x = borderpx;
   for (i = 0; i < LENGTH(tags); i++) {
+	/* Do not draw vacant tags */
+	if(!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
+		continue;
     w = TEXTW(tags[i]);
-    drw_setscheme(drw, scheme[occ & 1 << i ? (m->colorfultag ? tagschemes[i] : SchemeSel) : SchemeTag]);
+	drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeTagsSel : SchemeTagsNorm]);
     drw_text(drw, x, y, w, bh_n, lrpad / 2, tags[i], urg & 1 << i);
     if (ulineall ||
         m->tagset[m->seltags] &
@@ -1213,10 +1216,6 @@ void drawbar(Monitor *m) {
                        underneath both 'drw_setscheme' and 'drw_text' :) */
         drw_rect(drw, x + ulinepad, bh_n - ulinestroke - ulinevoffset,
                w - (ulinepad * 2), ulinestroke, 1, 0);
-    /*if (occ & 1 << i)
-      drw_rect(drw, x + boxs, y + boxs, boxw, boxw,
-               m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
-               urg & 1 << i); */
     x += w;
   }
   w = blw = TEXTW(m->ltsymbol);
@@ -2575,7 +2574,7 @@ void setup(void) {
   XChangeProperty(dpy, wmcheckwin, netatom[NetWMCheck], XA_WINDOW, 32,
                   PropModeReplace, (unsigned char *)&wmcheckwin, 1);
   XChangeProperty(dpy, wmcheckwin, netatom[NetWMName], utf8string, 8,
-                  PropModeReplace, (unsigned char *)"dwm", 3);
+                  PropModeReplace, (unsigned char *)"nvoidwm", 3);
   XChangeProperty(dpy, root, netatom[NetWMCheck], XA_WINDOW, 32,
                   PropModeReplace, (unsigned char *)&wmcheckwin, 1);
   /* EWMH support per view */
@@ -2688,7 +2687,7 @@ void spawn(const Arg *arg) {
       close(ConnectionNumber(dpy));
     setsid();
     execvp(((char **)arg->v)[0], (char **)arg->v);
-    fprintf(stderr, "dwm: execvp %s", ((char **)arg->v)[0]);
+    fprintf(stderr, "nvoidwm: execvp %s", ((char **)arg->v)[0]);
     perror(" failed");
     exit(EXIT_SUCCESS);
   }
@@ -2909,7 +2908,7 @@ void updatebars(void) {
                              .background_pixmap = ParentRelative,
                               .event_mask = ButtonPressMask|ExposureMask|PointerMotionMask};
 
-  XClassHint ch = {"dwm", "dwm"};
+  XClassHint ch = {"nvoidwm", "nvoidwm"};
   for (m = mons; m; m = m->next) {
     if (m->barwin)
       continue;
@@ -3140,7 +3139,7 @@ void updatesizehints(Client *c) {
 void updatestatus(void) {
 	Monitor* m;
   if (!gettextprop(root, XA_WM_NAME, stext, sizeof(stext)))
-    strcpy(stext, "dwm-" VERSION);
+    strcpy(stext, "nvoidwm-" VERSION);
   updatesystray();
 	for(m = mons; m; m = m->next)
 		drawbar(m);
@@ -3225,7 +3224,7 @@ void updatesystray(void) {
                 netatom[NetSystemTray], systray->win, 0, 0);
       XSync(dpy, False);
     } else {
-      fprintf(stderr, "dwm: unable to obtain system tray.\n");
+      fprintf(stderr, "nvoidwm: unable to obtain system tray.\n");
       free(systray);
       systray = NULL;
       return;
@@ -3407,7 +3406,7 @@ int xerror(Display *dpy, XErrorEvent *ee) {
       (ee->request_code == X_GrabKey && ee->error_code == BadAccess) ||
       (ee->request_code == X_CopyArea && ee->error_code == BadDrawable))
     return 0;
-  fprintf(stderr, "dwm: fatal error: request code=%d, error code=%d\n",
+  fprintf(stderr, "nvoidwm: fatal error: request code=%d, error code=%d\n",
           ee->request_code, ee->error_code);
   return xerrorxlib(dpy, ee); /* may call exit */
 }
@@ -3417,7 +3416,7 @@ int xerrordummy(Display *dpy, XErrorEvent *ee) { return 0; }
 /* Startup Error handler to check if another window manager
  * is already running. */
 int xerrorstart(Display *dpy, XErrorEvent *ee) {
-  die("dwm: another window manager is already running");
+  die("nvoidwm: another window manager is already running");
   return -1;
 }
 
@@ -3452,13 +3451,13 @@ void zoom(const Arg *arg) {
 
 int main(int argc, char *argv[]) {
   if (argc == 2 && !strcmp("-v", argv[1]))
-    die("dwm-" VERSION);
+    die("nvoidwm-" VERSION);
   else if (argc != 1 && strcmp("-s", argv[1]))
-    die("usage: dwm [-v]");
+    die("usage: nvoidwm [-v]");
   if (!setlocale(LC_CTYPE, "") || !XSupportsLocale())
     fputs("warning: no locale support\n", stderr);
   if (!(dpy = XOpenDisplay(NULL)))
-    die("dwm: cannot open display");
+    die("nvoidwm: cannot open display");
   if (argc > 1 && !strcmp("-s", argv[1])) {
     XStoreName(dpy, RootWindow(dpy, DefaultScreen(dpy)), argv[2]);
     XCloseDisplay(dpy);

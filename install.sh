@@ -50,9 +50,9 @@ sudo chown $USER dwm.desktop
 sudo cat > dwm.desktop <<EOF
 [Desktop Entry]
 Encoding=UTF-8
-Name=Dwm
+Name=nvoidwm
 Comment=the dynamic window manager
-Exec=dwm
-Icon=dwm
+Exec=nvoidwm
+Icon=nvoidwm
 Type=XSession
 EOF

@@ -39,6 +39,7 @@ dist: clean
 install: all
 	mkdir -p ${DESTDIR}${PREFIX}/bin
 	cp -f nvoidwm ${DESTDIR}${PREFIX}/bin
+	cp -f bar ${DESTDIR}${PREFIX}/bin
 	chmod 755 ${DESTDIR}${PREFIX}/bin/nvoidwm
 	mkdir -p ${DESTDIR}${MANPREFIX}/man1
 	sed "s/VERSION/${VERSION}/g" < nvoidwm.1 > ${DESTDIR}${MANPREFIX}/man1/nvoidwm.1

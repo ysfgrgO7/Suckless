@@ -31,8 +31,8 @@ sudo make clean install
 cd ../st 
 rm -f config.h
 sudo make clean install
-cd ../slstatus
-sudo make clean install
+# cd ../slstatus
+# sudo make clean install
 
 # ~/.config/suckless
 cd ~/.config/suckless/

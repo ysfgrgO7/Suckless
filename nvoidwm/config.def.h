@@ -49,9 +49,10 @@ static const char *colors[][3]      = {
 
 static const char *const autostart[] = {
 	"volumeicon", NULL,
+	"bar", NULL,
 	"picom", NULL,
 	"lxsession", NULL,
-    "slstatus", NULL,
+    // "slstatus", NULL,
     "nitrogen", "--restore" , NULL,
 	"picom", "-b", "--experimental-backends", NULL,
 	NULL

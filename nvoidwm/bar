@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+# colors
+bg=#1E1D2F
+fg=#D9E0EE
+cyan=#89DCEB
+green=#ABE9B3
+red=#F28FAD
+yellow=#FAE3B0
+blue=#96CDFB
+magenta=#F5C2E7
+
+## SEP '|'
+SEP(){
+    sep=$(echo '|')
+    echo "^c#6E6C7E^$sep"
+}
+
+# Modules
+
+TEMP(){
+    temp=$(sensors | grep temp1 | awk 'NR==1 {print $2}' | sed 's/+//g')
+    echo -e "^c$red^ ^c$fg^$temp"
+}
+
+UPTIME(){
+    uptime=$(uptime --pretty | sed -e 's/up //g' -e 's/ days/d/g' -e 's/ day/d/g' -e 's/ hours/h/g' -e 's/ hour/h/g' -e 's/ minutes/m/g' -e 's/, / /g')
+    echo -e "^c$green^ ^c$fg^$uptime"
+}
+
+VOL(){
+    vol=$(pactl list sinks | grep '^[[:space:]]Volume:' | head -n $(( $SINK + 1 )) | awk '{print $5}')
+    echo -e "^c$yellow^ ^c$fg^$vol"
+}
+
+CPU(){
+    cpu=$(top -b -n1 | grep "Cpu(s)" | awk '{print $2 + $4}')
+    echo -e "^c$blue^ ^c$fg^$cpu"
+}
+
+MEM(){
+    mem=$(free -h | awk '/^Mem:/ {print $3 "/" $2}' | sed 's/i//g')
+    echo -e "^c$magenta^  ^c$fg^$mem"
+}
+
+TIME(){
+    time=$(date '+%b %d - %I:%M%p')
+    echo -e "^c$cyan^  ^c$fg^$time"
+}
+
+while true; do
+ sleep 1 && xsetroot -name " $(SEP) $(TEMP) $(SEP) $(UPTIME) $(SEP) $(VOL) $(SEP) $(CPU)% $(SEP) $(MEM) $(SEP) $(TIME)"
+done
